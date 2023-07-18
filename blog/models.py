@@ -15,6 +15,9 @@ class Category(MPTTModel):
 
     )
 
+    def __str__(self):
+       return self.name
+
     class MPTTMeta:
         order_insertion_by = ['name']
 
@@ -22,6 +25,9 @@ class Category(MPTTModel):
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
+
+    def __str__(self):
+       return self.name
 
 
 class Post(models.Model):
@@ -42,7 +48,7 @@ class Post(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     serves = models.CharField(max_length=50)
-    pret_time = models.PositiveIntegerField(default=0)
+    prep_time = models.PositiveIntegerField(default=0)
     cook_time = models.PositiveIntegerField(default=0)
     ingredients = models.TextField()
     directions = models.TextField()
@@ -58,8 +64,8 @@ class Recipe(models.Model):
 class Comment(models.Model):
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
-    website = models.CharField(max_length=150)
+    website = models.CharField(max_length=150, blank=True, null=True)
     message = models.TextField(max_length=500)
-    post = models.ForeignKey(Post, related_name="comment", on_delete=models.CASCADE,)
+    post = models.ForeignKey(Post, related_name="comment", on_delete=models.CASCADE)
 
 
