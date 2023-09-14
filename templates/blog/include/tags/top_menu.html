@@ -1,3 +1,13 @@
-{% for category in list_category %}
-    {{ category.name }}
-{% endfor %}
+{% load mptt_tags %}
+
+
+<li class="dropdown">
+    <a href="#">Categories</a>
+    <ul class="dropdown__menu">
+        {% recursetree list_category %}
+        <li>
+            <a href="{% url 'post_list' node.slug %}">{{ node.name }}</a>
+        </li>
+        {% endrecursetree %}
+    </ul>
+</li>
