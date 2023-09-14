@@ -7,6 +7,11 @@
         {% recursetree list_category %}
         <li>
             <a href="{% url 'post_list' node.slug %}">{{ node.name }}</a>
+            {% if not node.is_leaf_node %}
+            <ul class="children">
+                {{ children }}
+            </ul>
+            {% endif %}
         </li>
         {% endrecursetree %}
     </ul>
