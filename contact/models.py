@@ -1,8 +1,9 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 
 
 class ContactModel(models.Model):
-    """Класс модели обратной связи"""
+    """ Model class page feedback"""
     name = models.CharField(max_length=50)
     email = models.EmailField()
     website = models.URLField(blank=True, null=True)
@@ -14,7 +15,7 @@ class ContactModel(models.Model):
 
 
 class ContactLink(models.Model):
-    """ Класс модели контактов """
+    """ Contact page model class """
     icon = models.FileField(upload_to="icons/")
     name = models.CharField(max_length=200)
 
@@ -22,3 +23,28 @@ class ContactLink(models.Model):
         return self.name
 
 
+class About(models.Model):
+    """ About us page model class """
+    text = RichTextField()
+    mini_text = RichTextField()
+
+    def get_first_image(self):
+        item = self.about_images.first()
+        return item.image.url
+
+    def get_images(self):
+        return self.about_images.order_by('id')[1:]
+
+
+class ImageAbout(models.Model):
+    """ Image model class for about us page """
+    image = models.ImageField(upload_to="about/")
+    page = models.ForeignKey(About, on_delete=models.CASCADE, related_name="about_images")
+    alt = models.CharField(max_length=100)
+
+
+class Social(models.Model):
+    """ Social model class networks for the about us page """
+    icon = models.FileField(upload_to="icons/")
+    name = models.CharField(max_length=200)
+    link = models.URLField()
